@@ -25,9 +25,7 @@ import { LoginSchema } from "@/schemas";
 import { login } from "@/actions/login";
 import Link from "next/link";
 
-interface LoginFormProps {}
-
-export const LoginForm = ({}: LoginFormProps) => {
+export const LoginForm = () => {
   const searchParams = useSearchParams();
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"

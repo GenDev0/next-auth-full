@@ -1,18 +1,18 @@
 "use client";
-import { signIn } from "next-auth/react";
+// import { signIn } from "next-auth/react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 import { Button } from "@/components/ui/button";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+// import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 interface SocialProps {}
 
 export const Social = (props: SocialProps) => {
   const onClick = (provider: "google" | "github") => {
-    signIn(provider, {
-      callbackUrl: DEFAULT_LOGIN_REDIRECT,
-    });
+    // signIn(provider, {
+    //   callbackUrl: DEFAULT_LOGIN_REDIRECT,
+    // });
   };
 
   return (

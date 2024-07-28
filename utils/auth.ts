@@ -64,7 +64,6 @@ export const {
     async signIn({ user, account }) {
       // Allow OAuth without email verification
       if (account?.provider !== "credentials") return true;
-
       const existingUser = await getUserById(user.id!);
       //Prevent sign in without email verificvation
       if (!existingUser || !existingUser.emailVerified) return false;
@@ -76,7 +75,7 @@ export const {
 
         if (!twoFactorConfirmation) return false;
 
-        // TODO: Delete 2FConfirmation for next sign in
+        // Delete 2FConfirmation for next sign in
         await db.twoFactorConfirmation.delete({
           where: { id: twoFactorConfirmation.id },
         });
@@ -84,7 +83,6 @@ export const {
       return true;
     },
     async session({ token, session, user }) {
-      console.log("Session callback", { session, token, user });
       if (session.user && token.sub) {
         session.user.id = token.sub;
       }

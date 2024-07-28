@@ -1,8 +1,8 @@
 "use server";
 
-import { RegisterSchema } from "@/schemas";
 import * as z from "zod";
-import * as argon from "argon2";
+import * as bcrypt from "bcrypt";
+import { RegisterSchema } from "@/schemas";
 
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
@@ -16,7 +16,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   }
 
   const { email, password, name } = validatedFields.data;
-  const hashedPassword = await argon.hash(password);
+  const hashedPassword = await bcrypt.hash(password, 10);
   const existingUser = await getUserByEmail(email);
 
   if (existingUser) {

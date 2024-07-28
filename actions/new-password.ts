@@ -1,7 +1,7 @@
 "use server";
 
 import * as z from "zod";
-import * as argon from "argon2";
+import * as bcrypt from "bcrypt";
 
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
@@ -39,7 +39,7 @@ export const newPassword = async (
     return { error: "This account does not exist!" };
   }
 
-  const hashedPassword = await argon.hash(password);
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   await db.user.update({
     where: {

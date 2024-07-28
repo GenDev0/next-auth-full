@@ -1,13 +1,13 @@
-import "next-auth";
-import "next-auth/jwt";
-import NextAuth, { User } from "next-auth";
-import { $Enums } from "@prisma/client";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import { $Enums, User as PrismaUser } from "@prisma/client";
+import "next-auth";
+import NextAuth, { type DefaultSession } from "next-auth";
+import "next-auth/jwt";
 
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
+import { getUserById } from "@/data/user";
 import { db } from "@/lib/db";
 import authConfig from "@/utils/auth.config";
-import { getUserById } from "@/data/user";
-import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
 // Declare your framework library
 declare module "next-auth" {
@@ -15,15 +15,22 @@ declare module "next-auth" {
    * Returned by `useSession`, `auth`, contains information about the active session.
    */
   interface Session {
-    user: User & {
+    user: {
+      /** The user's postal address. */
       role: $Enums.UserRole;
       isTwoFactorEnabled: boolean;
-    };
+      /**
+       * By default, TypeScript merges new interface properties and overwrites existing ones.
+       * In this case, the default session user properties will be overwritten,
+       * with the new ones defined above. To keep the default session user properties,
+       * you need to add them back into the newly declared interface.
+       */
+    } & DefaultSession["user"];
   }
-  interface User {
-    role: $Enums.UserRole;
-    isTwoFactorEnabled: boolean;
-  }
+  // interface User {
+  //   role: $Enums.UserRole;
+  //   isTwoFactorEnabled: boolean;
+  // }
 }
 
 declare module "next-auth/jwt" {

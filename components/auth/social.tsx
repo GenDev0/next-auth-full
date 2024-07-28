@@ -5,7 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 
 import { Button } from "@/components/ui/button";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes/routes";
-import { signIn } from "@/utils/auth";
+import { signIn } from "next-auth/react";
 // import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 interface SocialProps {}
